@@ -1,5 +1,5 @@
 import numpy as np
-lett = np.genfromtxt('Puzzle2')
+lett = np.genfromtxt('Puzzle2', dtype=np.str)
 n2, n3 = 0,0
 for i in range(len(lett)):
     a, c = np.unique(np.array(list(lett[i])), return_counts=True)
