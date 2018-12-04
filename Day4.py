@@ -35,3 +35,12 @@ for j in range(len(Lax)):
 
 print 'The most common minute of sleep from guard #', IdX[Tots.argmax()], ' is ', Routine.argmax() 
 print 'The code is '  IdX[Tots.argmax()]* Routine.argmax()
+
+Frq= np.zeros((len(IdX),60))
+for i in range(len(IdX)):
+  sleep = np.where(calendar[:,0] == IdX[i])[0]
+  for j in range(len(sleep)):
+    Frq[i, calendar[sleep[j], -3]: calendar[sleep[j], -1]] += 1 
+m,n = np.where(Frq == Frq.max())
+print 'the most frequently asleep guard is ', IdX[m[0]], ' on the minute ', n[0]
+print 'the code is ',IdX[m[0]]*n[0]
