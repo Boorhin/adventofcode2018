@@ -1,22 +1,28 @@
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots()
-
-with open('Puzzle5') as f:
-	data = f.read().strip('\n')
-L = [len(data)]
-i = 1
-I = [i]
-while i < len(data):
-		host = len(data)
-		if data[i-1] != data[i].swapcase():
-			i += 1
+def SandD(data):
+	i = 1
+	Stack = [data[0]]
+	while i < len(data):
+		if Stack and Stack[-1] != data[i].swapcase():
+			Stack.append(data[i])			
 		else:
-			data = data[:i-1]+data[i+1:]
-			i -= 1
-			L.append(len(data))
-			I.append(i)
-print 'the length of the polymer is ', len(data)
-ax.plot(L,I)
-ax.set_xlabel('Polymer length')
-ax.set_ylabel('verified units')
-plt.show()
+			try :
+				Stack.pop()
+			except:
+				Stack.append(data[i+1])
+				i += 1
+		i += 1
+	return len(Stack)
+
+FName = 'Puzzle5'
+Lengths =[]
+letters = 'abcdefghijklmnopqrstuvwxyz'	
+
+with open(FName) as f:
+	D = f.read().strip('\n')
+	   
+for letter in letters:
+	data = D.replace(letter,'').replace(letter.upper(),'')
+	l = SandD(data)
+	Lengths.append(l)
+	print 'the length of the polymer without the ', letter, 'chain is ' , l
+print 'the shortest polymer is ', min(Lengths)
