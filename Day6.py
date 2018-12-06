@@ -6,10 +6,10 @@ host = np.zeros(shape=(len(Coord), maxY, maxX), dtype =np.int)
 for i in range(len(Coord)):
 		for j in range(maxY):
 				host[i,j, Coord[i, 0]:] += range(maxX-Coord[i, 0])
-				host[i,j, :Coord[i, 0]] += range(0, Coord[i, 0])[::-1]
+				host[i,j, :Coord[i, 0]+1] += range(Coord[i, 0]+1)[::-1]
 		for k in range(maxX):
 				host[i, Coord[i, 1]:, k] += range(maxX-Coord[i, 1])
-				host[i, :Coord[i, 1], k] += range(0, Coord[i, 1])[::-1]		
+				host[i, :Coord[i, 1]+1, k] += range(0, Coord[i, 1]+1)[::-1]		
 map = np.ma.zeros(shape=(maxY, maxX), dtype =np.int)
 for j in range (len(map)):
 		for i in range(len(map[0])):
