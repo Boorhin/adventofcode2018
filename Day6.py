@@ -33,3 +33,7 @@ for v in edges:
 a,b = np.unique(map, return_counts=True)
 
 print 'the largest area is ', b[:-1].max()
+
+Zone = host.sum(axis=0, keepdims=True)[0]
+Zone = np.ma.masked_where(Zone >=10000, Zone)
+print 'the safe area is ', maxX*maxY - np.sum(Zone.mask), 'large'
