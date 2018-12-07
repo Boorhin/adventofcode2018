@@ -27,18 +27,18 @@ DynS, DynE = np.copy(Ls), np.copy(Le)
 #DynE[np.where(Ls == Start)[0]] = np.ma.masked
 Stack = ''
 Forward = []
-while len(Stack) <25:
+while len(Stack) <26:
     # if len(Stack) >0:
-    #     Forward.extend(DynE[Seek(DynS, Stack[-1])])
-    #     Forward.sort()
+
+    Forward.sort()
     #     print Stack[-1], Forward
     for i in range(len(Alpha)):
         if letters[i]:
-            if letters[i] not in DynE or len(DynS[Seek(DynE, letters[i])]) == 0:
+            if (letters[i] in Forward)  or (letters[i] not in DynE):
     #            print letters[i], len(DynS[Seek(DynE, letters[i])])
                 Stack += Alpha[i]
                 letters[i] = np.ma.masked
-                # break
+                Forward.extend(DynE[Seek(DynS, Stack[-1])])# break
     # if Alpha[i] in Forward:
     #     Forward.remove(Alpha[i])
     # else :
