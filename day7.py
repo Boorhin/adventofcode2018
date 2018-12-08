@@ -46,28 +46,28 @@ Ls, Le = np.ma.array(Ls), np.ma.array(Le)
 DynS, DynE = np.ma.copy(Ls), np.ma.copy(Le)
 DynS.mask, DynE.mask=np.zeros(len(DynS)),np.zeros(len(DynS))
 Stack = []
-startedjobs=[]
-time = 0
-Workers = np.zeros(5, dtype =np.int)
+tasks = np.zeros(5, dtype =np.int)
 Jobs = np.array(['','','','',''])
+t =-1
 while len(Stack) <26:
+    t +=1
+
+    for d in range(len(tasks)):
+        if tasks[d] == t and Jobs[d] not '':
+            Stack.append(Jobs[d])
+            print Jobs[d], tasks, Stack
+            DynE[np.where(DynE == Jobs[w])[0]]= np.ma.masked
+            Jobs[d] = ''
     for i in range(len(Alpha)):
         if not letters.mask[i]:
             l = letters[i]
-            if (l not in DynE) or all(np.isin(DynS[Seek(DynE,l)], Stack)):
-                    for j in range(len(Workers)):
-                        if Workers[j] == 0 and l not in Jobs:
+            if (l not in DynE[~DynE.mask]) or all(np.isin(Ls[Seek(Le,l)], Stack)):
+                    for j in range(len(tasks)):
+                        if tasks[j] < t and l not in Jobs:
                             Jobs[j]=l
-                            Workers[j] += 60+ord(l)-ord('A')
-    #print Workers, Jobs, Stack
-    for w in range(len(Workers)):
-        if Workers[w] == 1:
-            print Workers, Jobs, Stack
-            Stack.append(Jobs[w])
-            letters, DynS, DynE = addup(Jobs[w], letters, DynS, DynE)
-            Jobs[w] = ''
-    Workers[np.where(Workers >0)[0]] -=1
-    #print Workers, Jobs, Stack
+                            tasks[j] = t+ 60+ord(l)-ord('A')
+                            letters[np.where(letters==l)[0]] = np.ma.masked
+
 x = ''
 for s in Stack:
      x += s
