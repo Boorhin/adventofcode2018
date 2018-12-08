@@ -30,19 +30,10 @@ while len(Stack) <26:
     for i in range(len(Alpha)):
         if not letters.mask[i]:
             l = letters[i]
-            check = True
-            while check:#check all tasks completed for work
-                for j in DynS[Seek(DynE,l)]:
-                    if j in Stack:
-                        task = True
-                    else:
-                        task = False
-                        check = False
-                        break
-                check = False
-            if (l not in DynE) or task:
+            if (l not in DynE) or all(np.isin(DynS[Seek(DynE,l)], Stack)):
                 Stack.append(l)
                 letters, DynS, DynE = addup(l, letters, DynS, DynE)
+                break
 x = ''
 for s in Stack:
      x += s
