@@ -51,11 +51,10 @@ Jobs = np.array(['','','','',''])
 t =-1
 while len(Stack) <26:
     t +=1
-
     for d in range(len(tasks)):
-        if tasks[d] == t and Jobs[d] not '':
+        if tasks[d] == t and Jobs[d] != '':
             Stack.append(Jobs[d])
-            print Jobs[d], tasks, Stack
+            print Jobs, tasks, Stack
             DynE[np.where(DynE == Jobs[w])[0]]= np.ma.masked
             Jobs[d] = ''
     for i in range(len(Alpha)):
@@ -65,7 +64,7 @@ while len(Stack) <26:
                     for j in range(len(tasks)):
                         if tasks[j] < t and l not in Jobs:
                             Jobs[j]=l
-                            tasks[j] = t+ 60+ord(l)-ord('A')
+                            tasks[j] = t+ 61+ord(l)-ord('A')
                             letters[np.where(letters==l)[0]] = np.ma.masked
 
 x = ''
