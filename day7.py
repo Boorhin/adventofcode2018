@@ -38,6 +38,7 @@ while len(Stack) <26:
                     else:
                         task = False
                         check = False
+                        break
                 check = False
             if (l not in DynE) or task:
                 Stack.append(l)
