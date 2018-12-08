@@ -5,6 +5,13 @@ def Seek(L,  letter):
         if L[i] == letter:
             IdX.append(i)
     return IdX
+def addup(l, letters, DynS, DynE):
+    letters[np.where(letters==l)[0]] = np.ma.masked
+    for j in np.where(DynE == l)[0]:
+        if DynS[j] == l:
+            DynS[j] = np.ma.masked
+            DynE[j] = np.ma.masked
+    return letters, DynS, DynE
 
 with open('Puzzle7') as f:
     data = f.readlines()
@@ -14,37 +21,28 @@ for i in range(len(data)):
     Le.append(data[i][-13])
 Alpha = np.ma.array([chr(x) for x in range(65, 91)])
 letters = np.ma.copy(Alpha)
-for l in Alpha:
-    if l not in Le:
-        Start=l
-        break
-#letters[np.where(letters == Start)[0]] = np.ma.masked
-
-
+letters.mask=np.zeros(26)
 Ls, Le = np.ma.array(Ls), np.ma.array(Le)
-DynS, DynE = np.copy(Ls), np.copy(Le)
-#DynS[np.where(Ls == Start)[0]] = np.ma.masked
-#DynE[np.where(Ls == Start)[0]] = np.ma.masked
-Stack = ''
-Forward = []
+DynS, DynE = np.ma.copy(Ls), np.ma.copy(Le)
+DynS.mask, DynE.mask=np.zeros(len(DynS)),np.zeros(len(DynS))
+Stack = []
 while len(Stack) <26:
-    # if len(Stack) >0:
-
-    Forward.sort()
-    #     print Stack[-1], Forward
     for i in range(len(Alpha)):
-        if letters[i]:
-            if (letters[i] in Forward)  or (letters[i] not in DynE):
-    #            print letters[i], len(DynS[Seek(DynE, letters[i])])
-                Stack += Alpha[i]
-                letters[i] = np.ma.masked
-                Forward.extend(DynE[Seek(DynS, Stack[-1])])# break
-    # if Alpha[i] in Forward:
-    #     Forward.remove(Alpha[i])
-    # else :
-    #     print 'burp'
-    for i in np.where(Le == Stack[-1])[0]:
-            DynS[i] = np.ma.masked
-            DynE[i] = np.ma.masked
-
-print Stack
+        if not letters.mask[i]:
+            l = letters[i]
+            check = True
+            while check:#check all tasks completed for work
+                for j in DynS[Seek(DynE,l)]:
+                    if j in Stack:
+                        task = True
+                    else:
+                        task = False
+                        check = False
+                check = False
+            if (l not in DynE) or task:
+                Stack.append(l)
+                letters, DynS, DynE = addup(l, letters, DynS, DynE)
+x = ''
+for s in Stack:
+     x += s
+print x
