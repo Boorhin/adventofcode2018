@@ -11,8 +11,9 @@ met = 0
 while i < len(data)-data[1]:
     if data[i]+data[i+1] == 0: #empty node
         i +=2
-    if len(todo) >0: #after each node there is one less to do
-        todo[-1] -= 1
+        print 'pop'
+#    if len(todo) >0: #after each node there is one less to do
+#        todo[-1] -= 1
     if data[i] > 0: #if node branching out
         branch[i+2:] +=1
         levels.append(data[i])
@@ -25,13 +26,13 @@ while i < len(data)-data[1]:
             metadata.append(d)
         levels[-1]-= 1 # one thichness of the tip of the branch thinner
         i += 2+met
-        if levels[-1] == 0: #end of the branch
+        while levels[-1] == 0: #end of the branch
             branch[i:] -= 1
             for d in data[i: i+1+todo[-1]]:
                 metadata.append(d)
             i+= todo[-1]
             todo.pop()
-            levels = levels[:-1]
+            levels.pop()
 
-toolow = 19500
+toolow = 22799
 print sum(metadata)
